@@ -56,10 +56,8 @@ const renderPage = (page, isSearch) => {
       bountyLabel.textContent = "Capture Pirate"
       const bountyCheck = document.createElement("input")
       bountyCheck.type = "checkbox"
-      console.log(bountyCheck.checked)
-      if (capturedList.includes(ch)) {
-        bountyCheck.checked = true
-      }
+      const isExist = capturedList.some((item) => item.id === ch.id)
+      if (isExist) bountyCheck.checked = true
       bountyCheck.addEventListener("change", () => {
         handleCapturePirate(ch, bountyCheck.checked)
       })
@@ -128,6 +126,7 @@ const handleCapturePirate = (pirate, captured) => {
 
 searchForm.addEventListener("submit", async (e) => {
   e.preventDefault()
+  pageNumber = 1
   const searchInput = document.querySelector(".search-input")
   const value = searchInput.value
   const result = await getSearch(value)
