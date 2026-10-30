@@ -13,7 +13,6 @@ const getPage = async () => {
     const res = await fetch(
       `http://localhost:3000/api/onepiece/characters?page=${pageNumber}&limit=${LIMIT}`,
     )
-    console.log(res)
     if (!res.ok) return null
     return res.json()
   } catch (err) {
@@ -27,7 +26,6 @@ const getSearch = async (name) => {
     const res = await fetch(
       `http://localhost:3000/api/onepiece/characters?page=${pageNumber}&limit=${LIMIT}&q=${clean}`,
     )
-    console.log(res)
     if (!res.ok) return null
     return res.json()
   } catch (err) {
@@ -36,7 +34,6 @@ const getSearch = async (name) => {
 }
 
 const renderPage = (page) => {
-  console.log(page)
   pageUl.innerHTML = ""
   page.forEach((ch) => {
     const li = document.createElement("li")
@@ -59,6 +56,9 @@ const renderPage = (page) => {
       bountyLabel.textContent = "Capture Pirate"
       const bountyCheck = document.createElement("input")
       bountyCheck.type = "checkbox"
+      bountyCheck.addEventListener("change", () => {
+        handleCapturePirate(ch, bountyCheck.checked)
+      })
 
       li.append(bountyP)
       li.append(bountyLabel)
@@ -88,7 +88,14 @@ nextPageBtn.addEventListener("click", async () => {
 })
 
 const sumTheBounty = () => {
-  bountySum = capturedList.reduce((acc, prev) => acc + prev, 0)
+  bountySum = capturedList.reduce((acc, prev) => {
+    const bounty = prev.bounties.find((b) => b.is_active)
+    console.log(bounty)
+    return acc + bounty.amount
+  }, 0)
+  console.log(bountySum)
+  const bountySpan = document.querySelector(".bounty-number")
+  bountySpan.textContent = bountySum
 }
 
 const handleCapturePirate = (pirate, captured) => {
@@ -97,7 +104,13 @@ const handleCapturePirate = (pirate, captured) => {
     return alert("You already captured this pirate!")
   if (captured) {
     capturedList.push(pirate)
+  } else {
+    const index = capturedList.indexOf(pirate)
+    if (index > -1) {
+      capturedList.splice(index, 1)
+    }
   }
+  sumTheBounty()
 }
 
 searchForm.addEventListener("submit", async (e) => {
