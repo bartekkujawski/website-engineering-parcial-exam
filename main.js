@@ -1,3 +1,4 @@
+const searchForm = document.querySelector(".search-form")
 const pageUl = document.querySelector(".page")
 const prevPageBtn = document.querySelector(".prev-btn")
 const nextPageBtn = document.querySelector(".next-btn")
@@ -20,10 +21,11 @@ const getPage = async () => {
   }
 }
 
-const getSearch = async () => {
+const getSearch = async (name) => {
+  const clean = encodeURIComponent(name.toLowerCase())
   try {
     const res = await fetch(
-      `http://localhost:3000/api/onepiece/characters?page=${pageNumber}&limit=${LIMIT}`,
+      `http://localhost:3000/api/onepiece/characters?page=${pageNumber}&limit=${LIMIT}&q=${clean}`,
     )
     console.log(res)
     if (!res.ok) return null
@@ -41,18 +43,26 @@ const renderPage = (page) => {
 
     const img = document.createElement("img")
     img.src = ch.image_url
-    img.alt = `Image of ${ch.name.romaji}`
+    img.alt = `Image of ${ch.name.en}`
 
     const nameP = document.createElement("p")
-    nameP.textContent = ch.name.romaji
+    nameP.textContent = ch.name.en
 
     li.append(img)
     li.append(nameP)
     if (ch.bounties.length > 0) {
       const bountyP = document.createElement("p")
       const bounty = ch.bounties.find((b) => b.is_active)
-      bountyP.textContent = `Active Bounty: ${bounty}`
+      bountyP.textContent = `Active Bounty: ${bounty.amount}`
+
+      const bountyLabel = document.createElement("label")
+      bountyLabel.textContent = "Capture Pirate"
+      const bountyCheck = document.createElement("input")
+      bountyCheck.type = "checkbox"
+
       li.append(bountyP)
+      li.append(bountyLabel)
+      li.append(bountyCheck)
     }
     pageUl.append(li)
   })
@@ -81,11 +91,24 @@ const sumTheBounty = () => {
   bountySum = capturedList.reduce((acc, prev) => acc + prev, 0)
 }
 
-const handleCapturePirate = (pirate) => {
+const handleCapturePirate = (pirate, captured) => {
+  captured = !captured
   if (capturedList.includes(pirate))
     return alert("You already captured this pirate!")
+  if (captured) {
+    capturedList.push(pirate)
+  }
 }
 
-const renderDetails = (char, container) => {}
+searchForm.addEventListener("submit", async (e) => {
+  e.preventDefault()
+  const searchInput = document.querySelector(".search-input")
+  const value = searchInput.value
+  const result = await getSearch(value)
+  if (result.length === 0) return alert("Character not found!")
+  renderPage(result)
+})
+
+// const renderDetails = (char, container) => {}
 
 renderPage(await getPage())
