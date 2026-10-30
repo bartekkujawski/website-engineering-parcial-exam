@@ -19,12 +19,7 @@
 
 .page li img {
   width: 100px;
-  /* max-height: 93px; */
   transition: 1s;
-}
-
-.page li img:hover {
-  width: 100%;
 }
 
 section {
@@ -84,6 +79,10 @@ button:hover {
   font-weight: 700;
 }
 
+.page > li p {
+  text-align: center;
+}
+
 .page li ul li {
   text-align: center;
 }
@@ -124,5 +123,47 @@ button:hover {
 
   .clear-container button {
     width: 100%;
+  }
+}
+
+.page > li {
+  transition: all 0.3s;
+}
+
+.page.gomu > li {
+  animation: stretch 1s ease-in-out infinite;
+}
+.page.mera > li {
+  box-shadow: 0 0 20px 5px orangered;
+  animation: flicker 0.15s infinite alternate;
+}
+.page.hie > li {
+  background: #cfefff;
+  color: #003;
+  box-shadow: 0 0 20px 4px #8fd3ff;
+}
+.page.goro > li {
+  animation: flash 0.2s infinite;
+}
+.page.yami > li {
+  background: #000;
+  box-shadow: 0 0 30px 10px #3a0066;
+  filter: grayscale(1) brightness(0.7);
+}
+
+@keyframes stretch {
+  50% {
+    transform: scaleX(1.15);
+  }
+}
+@keyframes flicker {
+  to {
+    box-shadow: 0 0 30px 10px red;
+  }
+}
+@keyframes flash {
+  50% {
+    background: #fff700;
+    color: #000;
   }
 }

@@ -150,4 +150,23 @@ const renderDetails = (pirate, container) => {
   container.append(originLi)
 }
 
+const fruits = {
+  gomu: {
+    name: "Gomu Gomu no Mi",
+    desc: "Paramecia. Your body becomes rubber.",
+  },
+  mera: { name: "Mera Mera no Mi", desc: "Logia. You become fire." },
+  hie: { name: "Hie Hie no Mi", desc: "Logia. You become ice." },
+  goro: { name: "Goro Goro no Mi", desc: "Logia. You become lightning." },
+  yami: { name: "Yami Yami no Mi", desc: "Logia. You become darkness." },
+}
+
+const select = document.querySelector(".fruit")
+const pageX = document.querySelector(".page")
+
+select.addEventListener("change", () => {
+  pageX.className = "page"
+  if (select.value) pageX.classList.add(select.value)
+})
+
 renderPage(await getPage())
