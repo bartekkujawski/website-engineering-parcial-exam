@@ -56,21 +56,33 @@ const renderPage = (page, isSearch) => {
       bountyLabel.textContent = "Capture Pirate"
       const bountyCheck = document.createElement("input")
       bountyCheck.type = "checkbox"
+      console.log(bountyCheck.checked)
+      if (capturedList.includes(ch)) {
+        bountyCheck.checked = true
+      }
       bountyCheck.addEventListener("change", () => {
         handleCapturePirate(ch, bountyCheck.checked)
-      })
-
-      const additionalUl = document.createElement("ul")
-      img.addEventListener("click", () => {
-        renderDetails(ch, additionalUl)
       })
 
       li.append(bountyP)
       li.append(bountyLabel)
       li.append(bountyCheck)
-      li.append(additionalUl)
     }
+    const additionalUl = document.createElement("ul")
+    img.addEventListener("click", () => {
+      renderDetails(ch, additionalUl)
+    })
+    li.append(additionalUl)
     pageUl.append(li)
+    if (isSearch) {
+      const clearBtn = document.createElement("button")
+      clearBtn.textContent = "Clear Search"
+      clearBtn.addEventListener("click", async () => {
+        pageNumber = 1
+        renderPage(await getPage())
+      })
+      pageUl.append(clearBtn)
+    }
   })
 }
 
@@ -120,7 +132,8 @@ searchForm.addEventListener("submit", async (e) => {
   const value = searchInput.value
   const result = await getSearch(value)
   if (result.length === 0) return alert("Character not found!")
-  renderPage(result)
+  const isSearch = true
+  renderPage(result, isSearch)
 })
 
 const renderDetails = (pirate, container) => {
