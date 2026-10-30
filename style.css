@@ -19,12 +19,12 @@
 
 .page li img {
   width: 100px;
-  max-height: 93px;
+  /* max-height: 93px; */
+  transition: 1s;
 }
 
 .page li img:hover {
-  transition: 1s;
-  width: 500px;
+  width: 100%;
 }
 
 section {
@@ -41,6 +41,13 @@ button {
   padding: 8px 16px;
   letter-spacing: 1px;
   text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background-color: red;
+  color: white;
 }
 
 .header {
@@ -63,7 +70,7 @@ button {
 }
 
 .page > li {
-  height: 200px;
+  height: 350px;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -72,7 +79,7 @@ button {
   border-radius: 8px;
 }
 
-.page > li p {
+.page > li p:nth-of-type(1) {
   text-transform: uppercase;
   font-weight: 700;
 }
@@ -81,17 +88,41 @@ button {
   text-align: center;
 }
 
+.search-input {
+  border-radius: 10px;
+  background-color: transparent;
+  outline: none;
+  border: 1px solid red;
+  padding: 8px 16px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.btn-container {
+  display: flex;
+  gap: 16px;
+}
+
 @media (max-width: 500px) {
   .header {
+    padding: 0;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-evenly;
   }
 
   section h2 {
     text-align: center;
   }
 
+  .btn-container {
+    flex-direction: column;
+  }
+
   .pages-container button {
     width: 50%;
+  }
+
+  .clear-container button {
+    width: 100%;
   }
 }

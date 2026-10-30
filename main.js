@@ -2,6 +2,7 @@ const searchForm = document.querySelector(".search-form")
 const pageUl = document.querySelector(".page")
 const prevPageBtn = document.querySelector(".prev-btn")
 const nextPageBtn = document.querySelector(".next-btn")
+const clearContainer = document.querySelector(".clear-container")
 
 const capturedList = []
 let bountySum = 0
@@ -35,6 +36,7 @@ const getSearch = async (name) => {
 
 const renderPage = (page, isSearch) => {
   pageUl.innerHTML = ""
+  clearContainer.innerHTML = ""
   page.forEach((ch) => {
     const li = document.createElement("li")
 
@@ -79,7 +81,7 @@ const renderPage = (page, isSearch) => {
         pageNumber = 1
         renderPage(await getPage())
       })
-      pageUl.append(clearBtn)
+      clearContainer.append(clearBtn)
     }
   })
 }

@@ -13,7 +13,13 @@
       <header class="header">
         <h2 class="title">One Piece - Exam</h2>
         <form class="search-form">
-          <input type="text" class="search-input" placeholder="name" />
+          <input
+            name="search-input"
+            id="search-input"
+            type="text"
+            class="search-input"
+            placeholder="name"
+          />
           <button type="submit" class="search-btn">Search</button>
         </form>
       </header>
@@ -26,8 +32,11 @@
         <h2 class="pages-title">Characters:</h2>
         <ul class="page"></ul>
         <div class="btn-container">
-          <button type="button" class="prev-btn">Prev</button
-          ><button type="button" class="next-btn">Next</button>
+          <span class="clear-container"></span>
+          <div class="pages-btns">
+            <button type="button" class="prev-btn">Prev</button
+            ><button type="button" class="next-btn">Next</button>
+          </div>
         </div>
       </section>
     </div>
