@@ -33,7 +33,7 @@ const getSearch = async (name) => {
   }
 }
 
-const renderPage = (page) => {
+const renderPage = (page, isSearch) => {
   pageUl.innerHTML = ""
   page.forEach((ch) => {
     const li = document.createElement("li")
@@ -60,9 +60,15 @@ const renderPage = (page) => {
         handleCapturePirate(ch, bountyCheck.checked)
       })
 
+      const additionalUl = document.createElement("ul")
+      img.addEventListener("click", () => {
+        renderDetails(ch, additionalUl)
+      })
+
       li.append(bountyP)
       li.append(bountyLabel)
       li.append(bountyCheck)
+      li.append(additionalUl)
     }
     pageUl.append(li)
   })
@@ -90,18 +96,13 @@ nextPageBtn.addEventListener("click", async () => {
 const sumTheBounty = () => {
   bountySum = capturedList.reduce((acc, prev) => {
     const bounty = prev.bounties.find((b) => b.is_active)
-    console.log(bounty)
     return acc + bounty.amount
   }, 0)
-  console.log(bountySum)
   const bountySpan = document.querySelector(".bounty-number")
   bountySpan.textContent = bountySum
 }
 
 const handleCapturePirate = (pirate, captured) => {
-  captured = !captured
-  if (capturedList.includes(pirate))
-    return alert("You already captured this pirate!")
   if (captured) {
     capturedList.push(pirate)
   } else {
@@ -122,6 +123,17 @@ searchForm.addEventListener("submit", async (e) => {
   renderPage(result)
 })
 
-// const renderDetails = (char, container) => {}
+const renderDetails = (pirate, container) => {
+  container.innerHTML = ""
+
+  const statusLi = document.createElement("li")
+  statusLi.textContent = `Status: ${pirate.status}`
+
+  const originLi = document.createElement("li")
+  originLi.textContent = `Origin: ${pirate.extra_data.origin}`
+
+  container.append(statusLi)
+  container.append(originLi)
+}
 
 renderPage(await getPage())
