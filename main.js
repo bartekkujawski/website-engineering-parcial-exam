@@ -3,7 +3,7 @@ const prevPageBtn = document.querySelector(".prev-btn")
 const nextPageBtn = document.querySelector(".next-btn")
 
 const capturedList = []
-let rewardsCounter = 0
+let bountyCounter = 0
 let pageNumber = 1
 const LIMIT = 10
 
@@ -405,7 +405,7 @@ const characters = [
 const getPage = async () => {
   try {
     const res = await fetch(
-      `https://www.onepieceapi.com/api/characters?page=${pageNumber}&?limit=${LIMIT}`,
+      `https://localhost:3000/api/onepiece/characters?page=${pageNumber}&?limit=${LIMIT}`,
     )
     if (!res.ok) return null
     return res.json()
@@ -455,5 +455,12 @@ prevPageBtn.addEventListener("click", async () => {
 nextPageBtn.addEventListener("click", async () => {
   await nextPage()
 })
+
+const sumTheBounty = () => {}
+
+const handleCapturePirate = (pirate) => {
+  if (capturedList.includes(pirate))
+    return alert("You already captured this pirate!")
+}
 
 renderPage(await getPage())
